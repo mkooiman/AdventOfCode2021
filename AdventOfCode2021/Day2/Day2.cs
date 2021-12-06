@@ -53,6 +53,8 @@ namespace AdventOfCode2021.Day2
                             pos.Forward += model.Movement;
                             pos.Depth += (model.Movement * pos.Aim);
                             break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                     return pos;
                 });
@@ -62,20 +64,20 @@ namespace AdventOfCode2021.Day2
                               $"Result: {result.Depth * result.Forward}");
         }
 
-        record Position
+        private record Position
         {
-            public int Aim { get; set; } = 0;
-            public int Depth { get; set; } = 0;
-            public int Forward { get; set; } = 0;
+            public int Aim { get; set; }
+            public int Depth { get; set; }
+            public int Forward { get; set; }
         }
-        
-        record Model
+
+        private record Model
         {
             public Direction Direction { get; set; }
             public int Movement { get; set; }
         }
 
-        enum Direction
+        private enum Direction
         {
             forward,
             up,

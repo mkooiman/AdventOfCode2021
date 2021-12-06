@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdventOfCode2021.Day5
 {
@@ -35,29 +36,27 @@ namespace AdventOfCode2021.Day5
                     lines.Add(lineToAdd);
             }
             
-            Console.WriteLine($"Maxpoint: {maxPoint.Y}, {maxPoint.X}");
+            Console.WriteLine($"Max point: {maxPoint.Y}, {maxPoint.X}");
             var grid = new int[maxPoint.Y+1, maxPoint.X+1];
-            foreach(Line line in lines)
+            foreach (var point in lines
+                .Select(line => line.GetPoints())
+                .SelectMany(points => points))
             {
-                var points = line.GetPoints();
-                foreach (var point in points)
+                try
                 {
-                    try
-                    {
-                        grid[point.Y, point.X]++;
-                    }
-                    catch (Exception e )
-                    {
-                        Console.WriteLine(e);
-                    }
+                    grid[point.Y, point.X]++;
+                }
+                catch (Exception e )
+                {
+                    Console.WriteLine(e);
                 }
             }
 
             var higherThanTwo = 0;
             //print grid
-            for (int y = 0; y <= maxPoint.Y; y++)
+            for (var y = 0; y <= maxPoint.Y; y++)
             {
-                for (int x = 0; x <= maxPoint.X; x++)
+                for (var x = 0; x <= maxPoint.X; x++)
                 {
                     if(grid[y,x]>1)
                         higherThanTwo++;
@@ -98,28 +97,24 @@ namespace AdventOfCode2021.Day5
                     lines.Add(lineToAdd);
             }
             
-            Console.WriteLine($"Maxpoint: {maxPoint.Y}, {maxPoint.X}");
+            Console.WriteLine($"Max point: {maxPoint.Y}, {maxPoint.X}");
             var grid = new int[maxPoint.Y+1, maxPoint.X+1];
-            foreach(Line line in lines)
+            foreach (var point in lines.Select(line => line.GetPoints()).SelectMany(points => points))
             {
-                var points = line.GetPoints();
-                foreach (var point in points)
+                try
                 {
-                    try
-                    {
-                        grid[point.Y, point.X]++;
-                    } catch (Exception e )
-                    {
-                        Console.WriteLine(e);
-                    }
+                    grid[point.Y, point.X]++;
+                } catch (Exception e )
+                {
+                    Console.WriteLine(e);
                 }
             }
 
             var higherThanTwo = 0;
             //print grid
-            for (int y = 0; y <= maxPoint.Y; y++)
+            for (var y = 0; y <= maxPoint.Y; y++)
             {
-                for (int x = 0; x <= maxPoint.X; x++)
+                for (var x = 0; x <= maxPoint.X; x++)
                 {
                     if(grid[y,x]>1)
                         higherThanTwo++;
@@ -130,8 +125,8 @@ namespace AdventOfCode2021.Day5
             
             Console.WriteLine($"Higher than two: {higherThanTwo}");
         }
-        
-        public static Point MapStringToPoint(string input)
+
+        private static Point MapStringToPoint(string input)
         {
             var split = input.Split(",");
             return new Point
@@ -142,7 +137,7 @@ namespace AdventOfCode2021.Day5
         }
         
         // splits a string based on a string delimiter
-        public static string[] Split(this string str, string delimiter)
+        private static string[] Split(this string str, string delimiter)
         {
             var split = new List<string>();
             var start = 0;
@@ -161,13 +156,13 @@ namespace AdventOfCode2021.Day5
         }
     }
 
-    class Point
+    internal class Point
     {
         public int X { get; set; }
         public int Y { get; set; }
     }
-    
-    class Line
+
+    internal class Line
     {
         public Point Start { get; set; }
         public Point End { get; set; }

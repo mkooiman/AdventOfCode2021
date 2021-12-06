@@ -64,18 +64,18 @@ namespace AdventOfCode2021.Day4
         public static void Day4Pt2()
         {
             // Read the input.txt file
-            string[] input = File.ReadAllLines(@"../../Day4/input.txt");
+            var input = File.ReadAllLines(@"../../Day4/input.txt");
             
             var inputArray = input[0].Split(',').Select(int.Parse).ToArray();
 
 
-            int lineIndex = 1;
+            var lineIndex = 1;
             var list = new List<int[][]>();
             while (lineIndex < input.Length)
             {
                 lineIndex++;
                 var board = new int[5][];
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     board[i] = SplitString(input[lineIndex])
                         .Select(int.Parse)
@@ -93,23 +93,27 @@ namespace AdventOfCode2021.Day4
                 foreach (var board in list)
                 {
                     var found = FindNumber(board,i);
-                    if (found[0] != -1)
-                    {
-                        board[found[0]][found[1]] = -1;
-                        if (CheckArray(board, found[0], found[1]))
-                        {
-                            toRemove.Add(board);
-                            if (list.Count == 1)
-                            {
-                                var result = SumArray(list[0]);
-                                Console.WriteLine($"losing board: {list.IndexOf(list[0])}\n"+
-                                                  $"losing number: {i}\n" +
-                                                  $"Sum: {result}\n" +
-                                                  $"Result : {i * result}");
-                                break;
-                            }
-                        }
-                    }
+                    
+                    if (found[0] == -1) 
+                        continue;
+                    
+                    board[found[0]][found[1]] = -1;
+                    
+                    if (!CheckArray(board, found[0], found[1]))
+                        continue;
+                    
+                    toRemove.Add(board);
+                    
+                    if (list.Count != 1)
+                        continue;
+                    
+                    var result = SumArray(list[0]);
+                    
+                    Console.WriteLine($"losing board: {list.IndexOf(list[0])}\n"+
+                                      $"losing number: {i}\n" +
+                                      $"Sum: {result}\n" +
+                                      $"Result : {i * result}");
+                    break;
                 }
                 foreach (var board in toRemove)
                 {
@@ -120,8 +124,7 @@ namespace AdventOfCode2021.Day4
             }
         }  
         
-        //print a 2d array
-        private static void PrintArray(int[][] array)
+        private static void PrintArray(IEnumerable<int[]> array)
         {
             foreach (var i in array)
             {
@@ -133,43 +136,32 @@ namespace AdventOfCode2021.Day4
             }
         }
         
-        public static int SumArray(int[][] array)
+        private static int SumArray(IEnumerable<int[]> array)
         {
-            int sum = 0;
-            for (int i = 0; i < array.Length; i++)
-            {
-                for (int j = 0; j < array[i].Length; j++)
-                {
-                    if (array[i][j] != -1)
-                    {
-                        sum += array[i][j];
-                    }
-                }
-            }
-            return sum;
+            return array.Sum(t => t.Where(t1 => t1 != -1).Sum());
         }
 
-        public static int[] FindNumber(int[][] array, int number)
+        private static int[] FindNumber(IReadOnlyList<int[]> array, int number)
         {
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Count; i++)
             {
-                for (int j = 0; j < array[i].Length; j++)
+                for (var j = 0; j < array[i].Length; j++)
                 {
                     if (array[i][j] == number)
                     {
-                        return new int[] {i, j};
+                        return new [] {i, j};
                     }
                 }
             }
-            return new int[] {-1, -1};
+            return new [] {-1, -1};
         }
-        
-        
-        public static bool CheckArray(int[][] array, int column, int row)
+
+
+        private static bool CheckArray(IReadOnlyList<int[]> array, int column, int row)
         {
             if (array[column].All(i => i == -1))
                 return true;
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 if (array[i][row] != -1)
                 {
@@ -179,10 +171,9 @@ namespace AdventOfCode2021.Day4
             return true;
         }
 
-       public static string[] SplitString(string input)
+        private static IEnumerable<string> SplitString(string input)
         {
-            var res =  input.Trim().Replace("  "," ").Split(' ');
-            return res;
+            return input.Trim().Replace("  ", " ").Split(' ');
         }
         
     }

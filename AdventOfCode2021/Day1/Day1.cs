@@ -7,9 +7,8 @@ namespace AdventOfCode2021.Day1
 {
     internal class Day1
     {
+        private const int WindowSize = 3;
 
-        private static readonly int _windowSize = 3;
-        
         public static void Day1Pt1(string[] args)
         {
             var input = File.ReadAllLines("../../Day1/input.txt");
@@ -37,7 +36,8 @@ namespace AdventOfCode2021.Day1
             foreach (var i in ints)
             {
                 buffer.AddLast(i);
-                if (buffer.Count < _windowSize) continue;
+                if (buffer.Count < WindowSize) 
+                    continue;
 
                 if (prev == null)
                 {

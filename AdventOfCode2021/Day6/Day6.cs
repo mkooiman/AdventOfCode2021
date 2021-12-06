@@ -16,16 +16,16 @@ namespace AdventOfCode2021.Day6
                 .Select(int.Parse)
                 .ToList();
             
-            for(int i=0;i<80;i++)
+            for(var i=0;i<80;i++)
             {
                 Console.WriteLine($"{i}");
                 Iter(list);
             }
             
             // print array
-            for(int i=0;i<list.Count;i++)
+            foreach (var t in list)
             {
-                Console.Write($"{list[i]},");
+                Console.Write($"{t},");
             }
             Console.WriteLine();
             Console.WriteLine($"{list.LongCount()}");
@@ -56,17 +56,18 @@ namespace AdventOfCode2021.Day6
             Console.WriteLine($"{fishy.Sum( )}");
         }
 
-        public static void Iter(List<int> arr)
+        private static void Iter(List<int> arr)
         {
-            int toCreate = 0;
-            for(int i =0;i<arr.Count;i++)
+            var toCreate = 0;
+            for(var i =0;i<arr.Count;i++)
             {
                 arr[i]--;
-                if(arr[i]<0)
-                {
-                    toCreate++;
-                    arr[i] = 6;
-                }
+                
+                if (arr[i] >= 0)
+                    continue;
+                
+                toCreate++;
+                arr[i] = 6;
             }
             if(toCreate>0)
             {

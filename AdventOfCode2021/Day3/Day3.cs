@@ -13,7 +13,7 @@ namespace AdventOfCode2021.Day3
 
             var res = input.Select(i =>
                     i.ToCharArray()
-                        .Select(c => (int)c == '1' ? 1 : 0)
+                        .Select(c => c == '1' ? 1 : 0)
                         .ToArray())
                 .Aggregate(
                     new int[input[0].Length],
@@ -27,10 +27,10 @@ namespace AdventOfCode2021.Day3
                         return arr;
                     });
             var result = 0;
-            for(var i =0;i<res.Length;i++)
+            foreach (var t in res)
             {
                 result <<= 1;
-                if(res[i]>input.Length/2)
+                if(t>input.Length/2)
                 {
                     result |= 1;
                 }
@@ -51,7 +51,7 @@ namespace AdventOfCode2021.Day3
             var src = input.Select(s => Convert.ToInt32(s, 2));
             var counts =  input.Select(i =>
                     i.ToCharArray()
-                        .Select(c => (int)c == '1' ? 1 : 0)
+                        .Select(c => c == '1' ? 1 : 0)
                         .ToArray())
                 .Aggregate(
                     new int[input[0].Length],
@@ -64,43 +64,30 @@ namespace AdventOfCode2021.Day3
 
                         return arr;
                     });
-            var O2 = src.ToList();
-            var CO2 = src.ToList();
+            var enumerable = src as int[] ?? src.ToArray();
+            var o2 = enumerable.ToList();
+            var co2 = enumerable.ToList();
             
-            for(int i = 0;i <counts.Length;i++) 
+            for(var i = 0;i <counts.Length;i++) 
             {
-                if (O2.Count > 1)
+                if (o2.Count > 1)
                 {
-                    var count = O2.Where(nr => BitSet(nr, width - i - 1)).Count();
-                    if (count << 1 >= O2.Count )
-                    {
-                        O2 = O2.Where(i1 => BitSet(i1, width - i - 1 )).ToList();
-                    }
-                    else
-                    {
-                        O2 = O2.Where(i1 =>!BitSet(i1, width - i - 1 )).ToList();
-                    }
+                    var count = o2.Count(nr => BitSet(nr, width - i - 1));
+                    o2 = count << 1 >= o2.Count ? o2.Where(i1 => BitSet(i1, width - i - 1 )).ToList() : o2.Where(i1 =>!BitSet(i1, width - i - 1 )).ToList();
                 }
 
-                if (CO2.Count > 1)
+                if (co2.Count <= 1) continue;
                 {
-                    var count = CO2.Where(nr => !BitSet(nr, width - i - 1)).Count();
-                    if (count << 1 <= CO2.Count)
-                    {
-                        CO2 = CO2.Where(i1 => !BitSet(i1, width - i - 1 )).ToList();
-                    }
-                    else
-                    {
-                        CO2 = CO2.Where(i1 => BitSet(i1, width - i - 1) ).ToList();
-                    }
+                    var count = co2.Count(nr => !BitSet(nr, width - i - 1));
+                    co2 = count << 1 <= co2.Count ? co2.Where(i1 => !BitSet(i1, width - i - 1 )).ToList() : co2.Where(i1 => BitSet(i1, width - i - 1) ).ToList();
                 }
             }
-            Console.WriteLine($"O2: {O2[0]}\n"
-            + $"CO2: {CO2[0]}\n" +
-            $"Result: {O2[0] * CO2[0]}");
+            Console.WriteLine($"O2: {o2[0]}\n" +
+                              $"CO2: {co2[0]}\n" +
+                              $"Result: {o2[0] * co2[0]}");
         }
-        
-        static bool BitSet (int i, int bit)
+
+        private static bool BitSet (int i, int bit)
         {
             return (i & (1 << bit)) != 0;
         }
