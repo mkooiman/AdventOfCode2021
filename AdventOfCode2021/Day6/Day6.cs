@@ -36,17 +36,15 @@ namespace AdventOfCode2021.Day6
         {
             var input = File.ReadAllLines("../../Day6/input.txt");
             var list = input[0].Split(',').Select(int.Parse).ToList();
-            var fishy = new ulong[9];
+            var fishy = new decimal[9];
             foreach (var fish in list)
             {
                 fishy[fish]++;
             }
-
-            
-            for (int generation = 0; generation < 256; generation++)
+            for (var generation = 0; generation < 256; generation++)
             {
                 var first = fishy[0];
-                for (int i = 0; i < fishy.Length-1; i++)
+                for (var i = 0; i < fishy.Length-1; i++)
                 {
                     fishy[i] = fishy[i + 1];
                 }
@@ -54,13 +52,8 @@ namespace AdventOfCode2021.Day6
                 fishy[6] += first;
                 fishy[8] = first;
             }
-
-            ulong result = 0;
-            foreach (var @ulong in fishy)
-            {
-                result += @ulong;
-            }
-            Console.WriteLine($"{result}");
+            
+            Console.WriteLine($"{fishy.Sum( )}");
         }
 
         public static void Iter(List<int> arr)

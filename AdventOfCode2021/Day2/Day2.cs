@@ -6,8 +6,6 @@ namespace AdventOfCode2021.Day2
 {
     internal static class Day2
     {
-        private static readonly int windowSize = 3;
-        
         public static void Day2Main(string[] args)
         {
             var input = File.ReadAllLines("../../Day2/input.txt");

@@ -206,7 +206,7 @@ namespace AdventOfCode2021.Day5
             }
             return points;
         }
-        //tostring
+        
         public override string ToString()
         {
             return $"{Start.X},{Start.Y} -> {End.X},{End.Y}";

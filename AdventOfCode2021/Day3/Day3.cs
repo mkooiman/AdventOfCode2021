@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -27,8 +26,8 @@ namespace AdventOfCode2021.Day3
                         
                         return arr;
                     });
-            int result = 0;
-            for(int i =0;i<res.Length;i++)
+            var result = 0;
+            for(var i =0;i<res.Length;i++)
             {
                 result <<= 1;
                 if(res[i]>input.Length/2)
@@ -46,10 +45,9 @@ namespace AdventOfCode2021.Day3
         public static void Day3Pt2()
         {
             var input = File.ReadAllLines("../../Day3/input.txt");
-            
-            int width = input[0].Length;
-            int samples = input.Length;
-            
+
+            var width = input[0].Length;
+
             var src = input.Select(s => Convert.ToInt32(s, 2));
             var counts =  input.Select(i =>
                     i.ToCharArray()

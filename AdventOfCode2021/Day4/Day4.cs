@@ -11,18 +11,17 @@ namespace AdventOfCode2021.Day4
         public static void Day4Pt1()
         {
             // Read the input.txt file
-            string[] input = File.ReadAllLines(@"../../Day4/input.txt");
+            var input = File.ReadAllLines(@"../../Day4/input.txt");
             
-            // read the first line of input as csv and parse to integers
             var inputArray = input[0].Split(',').Select(int.Parse).ToArray();
 
-            int lineIndex = 1;
+            var lineIndex = 1;
             var list = new List<int[][]>();
             while (lineIndex < input.Length)
             {
                 lineIndex++;
                 var board = new int[5][];
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     board[i] = SplitString(input[lineIndex])
                         .Select(int.Parse)
@@ -39,22 +38,24 @@ namespace AdventOfCode2021.Day4
                 foreach (var board in list)
                 {
                     var found = FindNumber(board,i);
-                    if (found[0] != -1)
-                    {
-                        board[found[0]][found[1]] = -1;
-                        if (CheckArray(board, found[0], found[1]))
-                        {
-                            PrintArray(board);
-                            Console.WriteLine();
+                    
+                    if (found[0] == -1) 
+                        continue;
+                    
+                    board[found[0]][found[1]] = -1;
+                    
+                    if (!CheckArray(board, found[0], found[1])) 
+                        continue;
+                    
+                    PrintArray(board);
+                    Console.WriteLine();
                             
-                            var sum = SumArray(board);
-                            Console.WriteLine($"Winning board: {list.IndexOf(board)}\n"+
-                                                $"Winning number: {i}\n" +
-                                              $"Sum: {sum}\n" +
-                                              $"Result : {i * sum}");
-                            return;
-                        }
-                    }
+                    var sum = SumArray(board);
+                    Console.WriteLine($"Winning board: {list.IndexOf(board)}\n"+
+                                      $"Winning number: {i}\n" +
+                                      $"Sum: {sum}\n" +
+                                      $"Result : {i * sum}");
+                    return;
                 }
 
             }

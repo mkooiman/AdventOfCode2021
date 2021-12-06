@@ -37,7 +37,7 @@ namespace AdventOfCode2021.Day1
             foreach (var i in ints)
             {
                 buffer.AddLast(i);
-                if (buffer.Count < 3) continue;
+                if (buffer.Count < _windowSize) continue;
 
                 if (prev == null)
                 {
