@@ -7,9 +7,14 @@ namespace AdventOfCode2021.Day7
 {
     internal sealed class Day7
     {
+        private const string TestFile = "../../Day7/input_test.txt";
+        private const string RealFile = "../../Day7/input.txt";
+
+        private const string InputFile = RealFile;
+        
         public static void Day7Pt1()
         {
-            var input = File.ReadAllLines("../../Day7/input.txt");
+            var input = File.ReadAllLines(InputFile);
             var list = input[0]
                 .Split(',')
                 .Select(int.Parse)
@@ -30,7 +35,7 @@ namespace AdventOfCode2021.Day7
         
         public static void Day7Pt2()
         {
-            var input = File.ReadAllLines("../../Day7/input.txt");
+            var input = File.ReadAllLines(InputFile);
             var list = input[0]
                 .Split(',')
                 .Select(int.Parse)
