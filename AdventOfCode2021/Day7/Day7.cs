@@ -36,26 +36,25 @@ namespace AdventOfCode2021.Day7
                 .Select(int.Parse)
                 .ToList();
 
-            list.Sort();
-            
             // TODO: There seems to be some sort of rounding issue
-            //  so we calculate with both rounding up and down
+            // so we calculate with both rounding up and down
             // and take the best answer
             var ansDouble = list.Average();
-            var ans = Math.Floor(ansDouble);
-            var ans2 = Math.Ceiling(ansDouble);
-            var ansInt = (int)ans;
-            var ansInt2 = (int)ans2;
+            
+            var ansInt = (int)Math.Floor(ansDouble);
+            var ansInt2 = (int)Math.Ceiling(ansDouble);
+            
             var steps = CalculateSteps2(list, ansInt);
             var steps2 = CalculateSteps2(list, ansInt2);
+            
             if(steps< steps2)
                 Console.WriteLine($"Average: {ansDouble}\n" +
-                              $"Answer: {ans}\n" +
-                              $"Steps: {steps}");
+                                  $"Answer: {ansInt}\n" +
+                                  $"Steps: {steps}");
             else
             {
                 Console.WriteLine($"Average: {ansDouble}\n" +
-                                  $"Answer: {ans2}\n" +
+                                  $"Answer: {ansInt2}\n" +
                                   $"Steps: {steps2}");
             }
         }
