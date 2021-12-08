@@ -38,11 +38,8 @@ namespace AdventOfCode2021.Day8
             foreach (var strings in result)
             {
                 var mapping = GetMapping(strings[0]);
-                var value = 0;
-                foreach (var s in strings[1])
-                {
-                    value =  ( value * 10 ) + Array.IndexOf(mapping,s.Sort());
-                }
+                var value = strings[1]
+                    .Aggregate(0, (current, s) => current * 10 + Array.IndexOf(mapping, s.Sort()));
 
                 total += value;
             }
@@ -54,16 +51,21 @@ namespace AdventOfCode2021.Day8
         
         private static string[] GetMapping(string[] input)
         {
-            var one = input.SingleOrDefault(x => x.Length == 2);
-            var seven = input.SingleOrDefault(x => x.Length == 3);
-            var four = input.SingleOrDefault(x => x.Length == 4);
-            var eight = input.SingleOrDefault(x => x.Length == 7);
+            var one = input.Single(x => x.Length == 2);
+            var seven = input.Single(x => x.Length == 3);
+            var four = input.Single(x => x.Length == 4);
+            var eight = input.Single(x => x.Length == 7);
             
-            var fivelen = input.Where(x => x.Length == 5).ToList();
+            var fivelen = input
+                .Where(x => x.Length == 5)
+                .ToList();
+            
             if(fivelen.Count()!=3)
                 throw new ArgumentException("There should be exactly 3 strings of length 5");
             
-            var sixlen = input.Where(x => x.Length == 6).ToList();
+            var sixlen = input
+                .Where(x => x.Length == 6)
+                .ToList();
             
             if(sixlen.Count!= 3)
                 throw new ArgumentException("There should be exactly 3 six length digits");
@@ -80,6 +82,7 @@ namespace AdventOfCode2021.Day8
             var two = fivelen.Single(x => x.Contains(tmp));
             fivelen.Remove(two);
             var five = fivelen[0];
+            
             string zero = null;
             string nine = null;
             if (four.Any(c => !sixlen[0].Contains(c)))
