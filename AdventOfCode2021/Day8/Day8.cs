@@ -32,7 +32,8 @@ namespace AdventOfCode2021.Day8
             var result = input
                 .Select(x =>
                     x.Split(" | ")
-                        .Select(x =>x.Split(' '))
+                        .Select(x =>x.Split(' ').Select(x => x.Sort()).ToArray()
+                        )
                         .ToArray());
             var total = 0;
             foreach (var strings in result)
@@ -51,16 +52,25 @@ namespace AdventOfCode2021.Day8
         
         private static string[] GetMapping(string[] input)
         {
-            var one = input.Single(x => x.Length == 2);
-            var seven = input.Single(x => x.Length == 3);
-            var four = input.Single(x => x.Length == 4);
-            var eight = input.Single(x => x.Length == 7);
+            var mapping = new[]
+            {
+                null,
+                input.Single(x => x.Length == 2),
+                null,
+                null,
+                input.Single(x => x.Length == 4),
+                null,
+                null,
+                input.Single(x => x.Length == 3),
+                input.Single(x => x.Length == 7),
+                null,
+            };
             
             var fivelen = input
                 .Where(x => x.Length == 5)
                 .ToList();
             
-            if(fivelen.Count()!=3)
+            if(fivelen.Count!=3)
                 throw new ArgumentException("There should be exactly 3 strings of length 5");
             
             var sixlen = input
@@ -70,43 +80,39 @@ namespace AdventOfCode2021.Day8
             if(sixlen.Count!= 3)
                 throw new ArgumentException("There should be exactly 3 six length digits");
             
-            var three = fivelen
-                .First(x => x.IndexOf(one[0]) != -1 && x.IndexOf(one[1]) != -1);
-            fivelen.Remove(three);
-            var six = sixlen
-                .First(x => x.IndexOf(one[0])==-1 || x.IndexOf(one[1]) == -1);
-            sixlen.Remove(six);
+            mapping[3] = fivelen
+                .First(x => x.IndexOf(mapping[1][0]) != -1 && x.IndexOf(mapping[1][1]) != -1);
+            fivelen.Remove(mapping[3]);
             
-            var tmp = six.Aggregate("abcdefg", (current, c) => current.Replace("" + c, ""));
+            mapping[6] = sixlen
+                .First(x => x.IndexOf(mapping[1][0])==-1 || x.IndexOf(mapping[1][1]) == -1);
+            sixlen.Remove(mapping[6]);
+            
+            var tmp = mapping[6].Aggregate(mapping[8], (current, c) => current.Replace("" + c, ""));
 
-            var two = fivelen.Single(x => x.Contains(tmp));
-            fivelen.Remove(two);
-            var five = fivelen[0];
+            mapping[2] = fivelen.Single(x => x.Contains(tmp));
+            fivelen.Remove(mapping[2]);
+            mapping[5] = fivelen[0];
             
-            string zero = null;
-            string nine = null;
-            if (four.Any(c => !sixlen[0].Contains(c)))
+            if (mapping[4].Any(c => !sixlen[0].Contains(c)))
             {
-                zero = sixlen[0];
-                nine = sixlen[1];
+                mapping[0] = sixlen[0];
+                mapping[9] = sixlen[1];
+            }else
+            {
+                mapping[0] = sixlen[1];
+                mapping[9] = sixlen[0];
             }
 
-            if (zero == null)
-            {
-                nine = sixlen[0];
-                zero = sixlen[1];
-            }
-
-            return new []{ zero.Sort(), one.Sort(), two.Sort(), three.Sort(), four.Sort(), five.Sort(), 
-                six.Sort(), seven.Sort(), eight.Sort(), nine.Sort()};
+            return mapping;
         }
 
-        public static string[] Split(this string target, string separator)
+        private static string[] Split(this string target, string separator)
         {
             return target.Split(new[] {separator}, StringSplitOptions.None);
         }
         
-        public static string Sort( this string target)
+        private static string Sort( this string target)
         {
             var result = target.ToCharArray();
             Array.Sort(result);
