@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -70,15 +69,15 @@ namespace AdventOfCode2021.Day8
                 throw new ArgumentException("There should be exactly 3 six length digits");
             
             var three = fivelen
-                .FirstOrDefault(x => x.IndexOf(one[0]) != -1 && x.IndexOf(one[1]) != -1);
+                .First(x => x.IndexOf(one[0]) != -1 && x.IndexOf(one[1]) != -1);
             fivelen.Remove(three);
             var six = sixlen
-                .FirstOrDefault(x => x.IndexOf(one[0])==-1 || x.IndexOf(one[1]) == -1);
+                .First(x => x.IndexOf(one[0])==-1 || x.IndexOf(one[1]) == -1);
             sixlen.Remove(six);
             
             var tmp = six.Aggregate("abcdefg", (current, c) => current.Replace("" + c, ""));
 
-            var two = fivelen.SingleOrDefault(x => x.Contains(tmp));
+            var two = fivelen.Single(x => x.Contains(tmp));
             fivelen.Remove(two);
             var five = fivelen[0];
             string zero = null;
