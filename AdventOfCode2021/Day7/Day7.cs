@@ -18,9 +18,8 @@ namespace AdventOfCode2021.Day7
             var list = input[0]
                 .Split(',')
                 .Select(int.Parse)
+                .OrderBy(i => i)
                 .ToList();
-
-            list.Sort();
 
             var ans = list[list.Count / 2];
             var steps = CalculateSteps(list, ans);
@@ -64,7 +63,7 @@ namespace AdventOfCode2021.Day7
             }
         }
 
-        private static int CalculateSteps2(List<int> list, int start)
+        private static int CalculateSteps2(IEnumerable<int> list, int start)
         {
             return list.Sum( x =>
             {
