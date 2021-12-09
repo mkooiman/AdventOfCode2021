@@ -6,7 +6,7 @@ namespace AdventOfCode2021.Day2
 {
     internal static class Day2
     {
-        public static void Day2Main(string[] args)
+        public static void Day2Pt1()
         {
             var input = File.ReadAllLines("../../Day2/input.txt");
             

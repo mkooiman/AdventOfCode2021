@@ -47,6 +47,7 @@
         <Compile Include="Day6\Day6.cs" />
         <Compile Include="Day7\Day7.cs" />
         <Compile Include="Day8\Day8.cs" />
+        <Compile Include="Day9\Day9.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
@@ -66,6 +67,8 @@
       <Content Include="Day7\input_test.txt" />
       <Content Include="Day8\input.txt" />
       <Content Include="Day8\input_test.txt" />
+      <Content Include="Day9\input.txt" />
+      <Content Include="Day9\input_test.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
