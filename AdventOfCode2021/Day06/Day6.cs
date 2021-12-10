@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day6
+namespace AdventOfCode2021.Day06
 {
     internal static class Day6
     {
         
         public static void Day6Pt1()
         {
-            var input = File.ReadAllLines("../../Day6/input.txt");
+            var input = File.ReadAllLines("../../Day06/input.txt");
             var list = input[0]
                 .Split(',')
                 .Select(int.Parse)
@@ -34,7 +34,7 @@ namespace AdventOfCode2021.Day6
 
         public static void Day6Pt2()
         {
-            var input = File.ReadAllLines("../../Day6/input.txt");
+            var input = File.ReadAllLines("../../Day06/input.txt");
             var list = input[0].Split(',').Select(int.Parse).ToList();
             var fishy = new decimal[9];
             foreach (var fish in list)

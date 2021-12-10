@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day5
+namespace AdventOfCode2021.Day05
 {
     internal static class Day5
     {
         public static void Day5Pt1()
         {
             //read input file
-            var input = File.ReadAllLines("../../Day5/input.txt");
+            var input = File.ReadAllLines("../../Day05/input.txt");
             var lines = new List<Line>();
             var maxPoint = new Point();
             foreach (var line in input)
@@ -71,7 +71,7 @@ namespace AdventOfCode2021.Day5
         public static void Day5Pt2()
         {
             //read input file
-            var input = File.ReadAllLines("../../Day5/input.txt");
+            var input = File.ReadAllLines("../../Day05/input.txt");
             var lines = new List<Line>();
             var maxPoint = new Point();
             foreach (var line in input)

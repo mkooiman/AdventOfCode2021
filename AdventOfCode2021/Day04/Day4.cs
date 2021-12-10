@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day4
+namespace AdventOfCode2021.Day04
 {
     internal static class Day4
     {
@@ -11,7 +11,7 @@ namespace AdventOfCode2021.Day4
         public static void Day4Pt1()
         {
             // Read the input.txt file
-            var input = File.ReadAllLines(@"../../Day4/input.txt");
+            var input = File.ReadAllLines(@"../../Day04/input.txt");
             
             var inputArray = input[0].Split(',').Select(int.Parse).ToArray();
 
@@ -64,7 +64,7 @@ namespace AdventOfCode2021.Day4
         public static void Day4Pt2()
         {
             // Read the input.txt file
-            var input = File.ReadAllLines(@"../../Day4/input.txt");
+            var input = File.ReadAllLines(@"../../Day04/input.txt");
             
             var inputArray = input[0].Split(',').Select(int.Parse).ToArray();
 

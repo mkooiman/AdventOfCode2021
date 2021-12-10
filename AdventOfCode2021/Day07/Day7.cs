@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day7
+namespace AdventOfCode2021.Day07
 {
     internal sealed class Day7
     {
-        private const string TestFile = "../../Day7/input_test.txt";
-        private const string RealFile = "../../Day7/input.txt";
+        private const string TestFile = "../../Day07/input_test.txt";
+        private const string RealFile = "../../Day07/input.txt";
 
         private const string InputFile = RealFile;
         

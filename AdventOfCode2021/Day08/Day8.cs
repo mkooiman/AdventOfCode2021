@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day8
+namespace AdventOfCode2021.Day08
 {
     internal static class Day8
     {
-        private const string TestFile = "../../Day8/input_test.txt";
-        private const string RealFile = "../../Day8/input.txt";
+        private const string TestFile = "../../Day08/input_test.txt";
+        private const string RealFile = "../../Day08/input.txt";
 
         private const string InputFile = RealFile;
         

@@ -2,14 +2,14 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day3
+namespace AdventOfCode2021.Day03
 {
     internal static class Day3
     {
 
         public static void Day3Pt1()
         {
-            var input = File.ReadAllLines("../../Day3/input.txt");
+            var input = File.ReadAllLines("../../Day03/input.txt");
 
             var res = input.Select(i =>
                     i.ToCharArray()
@@ -44,7 +44,7 @@ namespace AdventOfCode2021.Day3
 
         public static void Day3Pt2()
         {
-            var input = File.ReadAllLines("../../Day3/input.txt");
+            var input = File.ReadAllLines("../../Day03/input.txt");
 
             var width = input[0].Length;
 

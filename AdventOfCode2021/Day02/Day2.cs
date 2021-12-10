@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace AdventOfCode2021.Day2
+namespace AdventOfCode2021.Day02
 {
     internal static class Day2
     {
         public static void Day2Pt1()
         {
-            var input = File.ReadAllLines("../../Day2/input.txt");
+            var input = File.ReadAllLines("../../Day02/input.txt");
             
             var result = input
                 .Select(i => i.Split(' '))
@@ -28,7 +28,7 @@ namespace AdventOfCode2021.Day2
         
         public static void Day2Pt2(string[] args)
         {
-            var input = File.ReadAllLines("../../Day2/input.txt");
+            var input = File.ReadAllLines("../../Day02/input.txt");
 
             var result = input
                 .Select(i => i.Split(' '))
