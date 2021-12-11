@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AdventOfCode2021.Day09
 {
-    internal static class Day9
+    public static class Day9
     {
         private const string TestFile = "../../Day09/input_test.txt";
         private const string RealFile = "../../Day09/input.txt";
@@ -141,7 +141,7 @@ namespace AdventOfCode2021.Day09
         }
         
 
-        private static List<int> Neighbours(int[][] matrix, int y, int x)
+        public static List<int> Neighbours(int[][] matrix, int y, int x)
         {
             var result = new List<int>();
             if (y != 0)

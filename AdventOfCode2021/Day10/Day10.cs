@@ -62,7 +62,7 @@ namespace AdventOfCode2021.Day10
             foreach (var chars in input)
             {
                 var stack = new LinkedList<char>();
-                bool skip = false;
+                var skip = false;
                 foreach(var c in chars)
                 {
                     if (open.IndexOf(c) >= 0)
