@@ -18,7 +18,9 @@ namespace AdventOfCode2021.Day13
             List<int[]> points = new();
             List<int> yFolds = new List<int>();
             List<int> xFolds = new List<int>();
+            
             bool instructions = false;
+            
             foreach( var str in input)
             {
                 if (str == "")
@@ -37,17 +39,14 @@ namespace AdventOfCode2021.Day13
                     {
                         yFolds.Add(Int32.Parse(str.Substring("fold along y=".Length)));
                         break;
-                    }
-                    else if( str.StartsWith("fold along x="))
+                    } 
+                    if( str.StartsWith("fold along x="))
                     {
                         xFolds.Add(Int32.Parse(str.Substring("fold along x=".Length)));
                         break;
                     }
                 }
             }
-
-            // yFolds = yFolds.GetRange(0, 1).ToList();
-            // xFolds = xFolds.GetRange(0, 1).ToList();
             
             var minX = xFolds.Min();
             var minY = yFolds.Count == 0 ? points.Max( p => p[1])+1: yFolds.Min();
@@ -59,7 +58,7 @@ namespace AdventOfCode2021.Day13
                 var yLoc = yFolds.Aggregate( point[1], (val, y) =>
                 {
                     var res = val;
-                    if (val>y)
+                    if (val>=y)
                     {
                         res = val % y;
                         res = y - res;
@@ -130,9 +129,6 @@ namespace AdventOfCode2021.Day13
                     }
                 }
             }
-
-            // yFolds = yFolds.GetRange(0, 1).ToList();
-            // xFolds = xFolds.GetRange(0, 1).ToList();
             
             var minX = xFolds.Min();
             var minY = yFolds.Min();
