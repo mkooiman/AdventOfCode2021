@@ -119,9 +119,9 @@ namespace AdventOfCode2021.Day12
             Small = name[0] > 'Z';
         }
 
-        public bool Small { get; set; }
-        public string Name { get; set; }
-        public List<Node> Connected { get; set; } = new List<Node>();
+        public bool Small { get; }
+        public string Name { get; }
+        public List<Node> Connected { get; } = new ();
         
         public void AddChild(Node node)
         {
