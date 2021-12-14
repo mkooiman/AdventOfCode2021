@@ -59,20 +59,17 @@ namespace AdventOfCode2021.Day14
             for( var i =1; i < start.Length; i++)
             {
                 var tmp = start[i - 1] +""+ start[i];
-                if (i != 1)
-                    charCounts[start[i - 1]]--;
+                
                 counts[tmp]++;
             }
-            
+
             for (int i = 0; i < cycles; i++)
             {
                 var newCount = dict.ToDictionary(k => k.Key, (_) => 0L);
                 foreach (var keyValuePair in counts)
                 {
                     var result = dict[keyValuePair.Key];
-                    
-                    // charCounts[result]--;
-                    
+
                     var one = keyValuePair.Key[0] + "" + result;
                     var two = "" + result + keyValuePair.Key[1];
                     newCount[one] += keyValuePair.Value;
@@ -99,7 +96,7 @@ namespace AdventOfCode2021.Day14
                     min = keyValuePair.Value;
             }
             
-            Console.WriteLine((max - min)/2+(max - min)%2);
+            Console.WriteLine((max - min)/2 + 1 );
         }
         
         private static Dictionary<char, long> CountCharacters(string polymer)
