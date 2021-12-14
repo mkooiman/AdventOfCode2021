@@ -32,7 +32,7 @@ namespace AdventOfCode2021.Day14
                 .ToDictionary(k => k[0], v => v[1][0]);
             
 
-            var charCounts = "abcdefghijklmnopqrstuvwxyz".ToUpper().ToDictionary(k => k, v => 0L);
+            var charCounts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToDictionary(k => k, v => 0L);
             var counts = GetCounts(start, cycles, dict);
             foreach (var keyValuePair in counts)
             {
@@ -77,35 +77,6 @@ namespace AdventOfCode2021.Day14
                 counts = newCount;
             }
             return counts;  
-        }
-        
-        private static Dictionary<char, long> CountCharacters(string polymer)
-        {
-            
-            var counts = new Dictionary<char, long>();
-            foreach (var c in polymer)
-            {
-                if (counts.ContainsKey(c))
-                    counts[c]++;
-                else
-                    counts.Add(c, 1L);
-            }
-
-            return counts;
-        }
-
-        private static string Polymerize(string source, Dictionary<string,char> dict)
-        {
-            var sb = new StringBuilder();
-            
-            for( var i =1; i < source.Length; i++)
-            {
-                var tmp = source[i - 1] +""+ source[i];
-                sb.Append(source[i - 1]);
-                sb.Append(dict[tmp]);
-            }
-            sb.Append(source[source.Length - 1]);
-            return sb.ToString();
         }
 
         private static string[] Split(this string target, string separator)
