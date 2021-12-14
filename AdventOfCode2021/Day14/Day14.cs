@@ -15,35 +15,15 @@ namespace AdventOfCode2021.Day14
 
         public static void Day14Pt1()
         {
-            var input = File.ReadAllLines(InputFile);
-            var start = input[0];
-            var dict = input
-                .Skip(2)
-                .Select(s => s.Split(" -> "))
-                .ToDictionary(k => k[0], v => v[1][0]);
-
-            var result = start;
-            for (var i = 0; i < 1; i++)
-            {
-                result = Polymerize(result, dict);
-            }
-            
-            var counts = CountCharacters(result);
-            var min = long.MaxValue;
-            var max = 0L;
-            foreach (var keyValuePair in counts)
-            {
-                if (keyValuePair.Value > max)
-                    max = keyValuePair.Value;
-                if(keyValuePair.Value< min)
-                    min = keyValuePair.Value;
-            }
-
-            Console.WriteLine(max - min);
+            SolveWithCycles(10);
         }
-        
+
         public static void Day14Pt2()
         {
+            SolveWithCycles(40);
+        }
+        
+        private static void SolveWithCycles(int cycles){
             var input = File.ReadAllLines(InputFile);
             var start = input[0];
             var dict = input
@@ -53,7 +33,7 @@ namespace AdventOfCode2021.Day14
             
 
             var charCounts = "abcdefghijklmnopqrstuvwxyz".ToUpper().ToDictionary(k => k, v => 0L);
-            var counts = GetCounts(start, 40, dict);
+            var counts = GetCounts(start, cycles, dict);
             foreach (var keyValuePair in counts)
             {
                 charCounts[keyValuePair.Key[0]] += keyValuePair.Value;
