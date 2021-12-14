@@ -24,15 +24,14 @@ namespace AdventOfCode2021.Day14
                 .ToDictionary(k => k[0], v => v[1][0]);
 
             var result = start;
-            for (int i = 0; i < 1; i++)
+            for (var i = 0; i < 1; i++)
             {
                 result = Polymerize(result, dict);
             }
-
-            // Console.WriteLine(result);
+            
             var counts = CountCharacters(result);
             var min = Int64.MaxValue;
-            var max = 0l;
+            var max = 0L;
             foreach (var keyValuePair in counts)
             {
                 if (keyValuePair.Value > max)
@@ -54,8 +53,8 @@ namespace AdventOfCode2021.Day14
                 .ToDictionary(k => k[0], v => v[1][0]);
             
 
-            var counts = dict.ToDictionary(k => k.Key, (_) => 0l);
-            var charCounts = "abcdefghijklmnopqrstuvwxyz".ToUpper().ToDictionary(k => k, v => 0l);
+            var counts = dict.ToDictionary(k => k.Key, (_) => 0L);
+            var charCounts = "abcdefghijklmnopqrstuvwxyz".ToUpper().ToDictionary(k => k, v => 0L);
             var cycles = 40;
             for( var i =1; i < start.Length; i++)
             {
@@ -67,7 +66,7 @@ namespace AdventOfCode2021.Day14
             
             for (int i = 0; i < cycles; i++)
             {
-                var newCount = dict.ToDictionary(k => k.Key, (_) => 0l);
+                var newCount = dict.ToDictionary(k => k.Key, (_) => 0L);
                 foreach (var keyValuePair in counts)
                 {
                     var result = dict[keyValuePair.Key];
@@ -106,7 +105,7 @@ namespace AdventOfCode2021.Day14
         private static Dictionary<char, long> CountCharacters(string polymer)
         {
             
-            Dictionary<char, long> counts = new Dictionary<char, long>();
+            var counts = new Dictionary<char, long>();
             foreach (var c in polymer)
             {
                 if (counts.ContainsKey(c))
@@ -145,7 +144,7 @@ namespace AdventOfCode2021.Day14
                 counts[tmp] = 1;
             }
             
-            for (int i = 0; i < cycles; i++)
+            for (var i = 0; i < cycles; i++)
             {
                 var newCount = dict.ToDictionary(k => k.Key, (_) => 0l);
                 foreach (var keyValuePair in counts)
