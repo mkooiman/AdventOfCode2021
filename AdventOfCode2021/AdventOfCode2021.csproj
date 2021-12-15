@@ -54,11 +54,14 @@
         <Compile Include="Day13\Day13.cs" />
         <Content Include="Day13\input.txt" />
         <Compile Include="Day14\Day14.cs" />
+        <Compile Include="Day15\Day15.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Content Include="Day13\input_test.txt" />
         <Content Include="Day14\input.txt" />
         <Content Include="Day14\input_test.txt" />
+        <Content Include="Day15\input.txt" />
+        <Content Include="Day15\input_test.txt" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="Day01\input.txt" />

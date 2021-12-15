@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode2021.Day14
 {
@@ -31,9 +30,10 @@ namespace AdventOfCode2021.Day14
                 .Select(s => s.Split(" -> "))
                 .ToDictionary(k => k[0], v => v[1][0]);
             
-
             var charCounts = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToDictionary(k => k, v => 0L);
+            
             var counts = GetCounts(start, cycles, dict);
+            
             foreach (var keyValuePair in counts)
             {
                 charCounts[keyValuePair.Key[0]] += keyValuePair.Value;
