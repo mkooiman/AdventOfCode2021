@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AdventOfCode2021.Day16
 {
-    internal static class Day16
+    internal sealed class Day16
     {
         private const string TestFile = "../../Day16/input_test.txt";
         private const string RealFile = "../../Day16/input.txt";
@@ -15,41 +15,37 @@ namespace AdventOfCode2021.Day16
         public static void Day16Pt1()
         {
             var input = File.ReadAllLines(InputFile);
-            foreach (var hexString in input)
+            foreach (var s in input)
             {
-                // Console.WriteLine(hexString);
-                byte[] bytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < hexString.Length; i += 2)
-                    bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-                var bitStream = new BitStream(bytes);
-                var packet = ReadPacket(bitStream);
-
-                var sum = SumPacketVersions(packet);
-                Console.WriteLine($"{sum}");
+                SolvePt1(s);
             }
-            
         }
+        
         
         public static void Day16Pt2()
         {
             var input = File.ReadAllLines(InputFile);
-            foreach (var hexString in input)
+            foreach (var s in input)
             {
-                // Console.WriteLine(hexString);
-                byte[] bytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < hexString.Length; i += 2)
-                    bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-                var bitStream = new BitStream(bytes);
-                var packet = ReadPacket(bitStream);
-                
-                Console.WriteLine($"{hexString} : {packet.Value()}");
+                SolvePt2(s);
             }
         }
-
-        private static int SumPacketVersions(Packet packet)
+        
+        private static void SolvePt1(string input)
+        {
+            
+            var bytes = new byte[input.Length / 2];
+            for (var i = 0; i < input.Length; i += 2)
+                bytes[i / 2] = Convert.ToByte(input.Substring(i, 2), 16);
+            var bs = new BitStream(bytes);
+            var packet = ReadPacket(bs);
+            Console.WriteLine(SumPacketVersions(packet));
+        }
+        
+        private static int SumPacketVersions(Packet2 packet)
         {
             int result = packet.Version;
-            foreach (Packet p in packet.SubPackets)
+            foreach (Packet2 p in packet.Children)
             {
                 result+= SumPacketVersions(p);
             }
@@ -57,128 +53,124 @@ namespace AdventOfCode2021.Day16
             return result;
         }
         
-        private static Packet ReadPacket(BitStream bitStream)
+        private static void SolvePt2(string input)
         {
-            var packet = new Packet();
-            packet.Version = bitStream.GetNext(3);
-            packet.TypeId = bitStream.GetNext(3);
-            if(packet.TypeId == 4)
+            
+            var bytes = new byte[input.Length / 2];
+            for (var i = 0; i < input.Length; i += 2)
+                bytes[i / 2] = Convert.ToByte(input.Substring(i, 2), 16);
+            var bs = new BitStream(bytes);
+            var packet = ReadPacket(bs);
+            Console.WriteLine(input + " : " +packet.GetValue());
+        }
+
+        private static Packet2 ReadPacket(BitStream bs)
+        {
+            var packet = new Packet2();
+            packet.Version = bs.GetNext(3);
+            packet.TypeId = bs.GetNext(3);
+            if (packet.TypeId == 4)
             {
-                bool hasNext;
-                do
-                {
-                    hasNext = 1 == bitStream.GetNext(1);
-                    int group = bitStream.GetNext(4);
-                    packet.Groups.Add(group);
-                } while (hasNext);
+                ParseLiteral(packet, bs);
             }
             else
             {
-                int len = bitStream.GetNext(1) == 0 ? 15 : 11;
-                int packetLength = bitStream.GetNext(len);
-                if (len == 11)
-                {
-                    for (int i = 0; i < packetLength; i++)
-                    {
-                        packet.SubPackets.Add(ReadPacket(bitStream));
-                    }
-                }else
-                {
-                    int currentOffset = bitStream.offset;
-                    while (bitStream.offset - currentOffset < packetLength)
-                    {
-                        packet.SubPackets.Add(ReadPacket(bitStream));
-                    }
-                }
-                
+                ParseOperator(packet, bs);
             }
 
             return packet;
         }
+
+        private static void ParseLiteral(Packet2 p, BitStream bc)
+        {
+            var value = 0L;
+            bool hasNext;
+            do
+            {
+                hasNext = bc.GetNext(1) == 1;
+                value <<= 4;
+                value |= (uint)bc.GetNext(4);
+            } while (hasNext);
+
+            p.Value = value;
+        }
+        
+        private static void ParseOperator(Packet2 p, BitStream bs)
+        {
+            var countType = bs.GetNext(1);
+            if (countType == 0)
+            {
+                ParseSubPacketsLengthDelimited(p, bs);
+            }
+            else
+            {
+                ParseSubPacketsWithCount(p, bs);
+            }
+        }
+
+        private static void ParseSubPacketsLengthDelimited(Packet2 p, BitStream bs)
+        {
+            var count = bs.GetNext(15);
+            var start = bs.offset;
+            while (bs.offset - start != count)
+            {
+                p.Children.Add(ReadPacket(bs));
+            }
+        }
+
+        private static void ParseSubPacketsWithCount(Packet2 p, BitStream bs)
+        {
+            var count = bs.GetNext(11);
+            for (var i = 0; i < count; i++)
+            {
+                p.Children.Add(ReadPacket(bs));
+            }
+        }
         
     }
 
-    class Packet
+    class Packet2
     {
         public int Version { get; set; }
         public int TypeId { get; set; }
-        public List<Packet> SubPackets { get; set; } = new List<Packet>();
+        public long Value { get; set; }
 
-        public List<int> Groups { get; set; } = new List<int>();
+        public List<Packet2> Children { get; } = new ();
 
-        public long Value()
+        public long GetValue()
         {
             switch (TypeId)
             {
                 case 0:
                 {
-                    if (SubPackets.Count == 0)
-                        return 0;
-                    var res = 0l;
-                    foreach (var subPacket in SubPackets)
-                    {
-                        // Console.Write($" {subPacket.Value() } +");
-                        res += subPacket.Value();
-                    }
-                    // Console.WriteLine(
-                        // $" = {res}");
-                    return res;
+                    return Children.Select(c => c.GetValue()).Sum();
                 }
                 case 1:
                 {
-                    if (SubPackets.Count == 0)
-                        return 0;
-                    var res = 1l;
-                    foreach (var subPacket in SubPackets)
-                    {
-                        // Console.Write($"{subPacket.Value() } *");
-                        res *= subPacket.Value();
-                    }
-                    // Console.WriteLine($" = {res}");
-                    return res;
+                    if (Children.Count == 0) return 0;
+                    return Children.Select(c => c.GetValue()).Aggregate(1l, (l, l1) => l*l1 );
                 }
                 case 2:
                 {
-                    long val = SubPackets.Select(s => s.Value()).Min();
-                    return val;
-                }   
+                    return Children.Select(c => c.GetValue()).Min();
+                }
                 case 3:
                 {
-                    long val = SubPackets.Select(s => s.Value()).Max();
-                    return val;
+                    return Children.Select(c => c.GetValue()).Max();
                 }
                 case 4:
-                    
-                {
-                    var result = 0;
-                    foreach (var group in Groups)
-                    {
-                        result <<= 4;
-                        result |= group;
-                    }
-                    return result;
-                }
-
+                    return Value;
                 case 5:
-                {
-                    // Console.WriteLine($"{SubPackets[0].Value()} > {SubPackets[1].Value()}?1:0");
-                    return SubPackets[0].Value() > SubPackets[1].Value()?1:0;
-                }
+                    return Children[0].GetValue() > Children[1].GetValue() ? 1 : 0;
                 case 6:
-                {
-                    // Console.WriteLine($"{SubPackets[0].Value()} < {SubPackets[1].Value()}?1:0");
-                    return SubPackets[0].Value() < SubPackets[1].Value()?1:0;
-                }
+                    return Children[0].GetValue() < Children[1].GetValue() ? 1 : 0;
                 case 7:
-                {
-                    // Console.WriteLine($"{SubPackets[0].Value()} == {SubPackets[1].Value()}?1:0");
-                    return SubPackets[0].Value() == SubPackets[1].Value()?1:0;
-                }
-                default: return 0;
+                    return Children[0].GetValue() == Children[1].GetValue() ? 1 : 0;
+                default:
+                    throw new ArgumentException("error");
             }
         }
     }
-    
     class BitStream
     {
         public byte[] Bytes { get; set; }
