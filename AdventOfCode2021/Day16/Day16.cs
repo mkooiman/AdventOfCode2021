@@ -21,7 +21,6 @@ namespace AdventOfCode2021.Day16
             }
         }
         
-        
         public static void Day16Pt2()
         {
             var input = File.ReadAllLines(InputFile);
