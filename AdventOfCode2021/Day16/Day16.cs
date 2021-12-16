@@ -111,8 +111,8 @@ namespace AdventOfCode2021.Day16
         private static void ParseSubPacketsLengthDelimited(Packet2 p, BitStream bs)
         {
             var count = bs.GetNext(15);
-            var start = bs.offset;
-            while (bs.offset - start != count)
+            var start = bs.Offset;
+            while (bs.Offset - start != count)
             {
                 p.Children.Add(ReadPacket(bs));
             }
@@ -129,7 +129,7 @@ namespace AdventOfCode2021.Day16
         
     }
 
-    class Packet2
+    internal class Packet2
     {
         public int Version { get; set; }
         public int TypeId { get; set; }
@@ -139,63 +139,46 @@ namespace AdventOfCode2021.Day16
 
         public long GetValue()
         {
-            switch (TypeId)
+            return TypeId switch
             {
-                case 0:
-                {
-                    return Children.Select(c => c.GetValue()).Sum();
-                }
-                case 1:
-                {
-                    if (Children.Count == 0) return 0;
-                    return Children.Select(c => c.GetValue()).Aggregate(1l, (l, l1) => l*l1 );
-                }
-                case 2:
-                {
-                    return Children.Select(c => c.GetValue()).Min();
-                }
-                case 3:
-                {
-                    return Children.Select(c => c.GetValue()).Max();
-                }
-                case 4:
-                    return Value;
-                case 5:
-                    return Children[0].GetValue() > Children[1].GetValue() ? 1 : 0;
-                case 6:
-                    return Children[0].GetValue() < Children[1].GetValue() ? 1 : 0;
-                case 7:
-                    return Children[0].GetValue() == Children[1].GetValue() ? 1 : 0;
-                default:
-                    throw new ArgumentException("error");
-            }
+                0 => Children.Select(c => c.GetValue()).Sum(),
+                1 => (Children.Count == 0) ? 0 : Children.Select(c => c.GetValue()).Aggregate(1l, (l, l1) => l * l1),
+                2 => Children.Select(c => c.GetValue()).Min(),
+                3 => Children.Select(c => c.GetValue()).Max(),
+                4 => Value,
+                5 => Children[0].GetValue() > Children[1].GetValue() ? 1 : 0,
+                6 => Children[0].GetValue() < Children[1].GetValue() ? 1 : 0,
+                7 => Children[0].GetValue() == Children[1].GetValue() ? 1 : 0,
+                _ => throw new ArgumentException("error")
+            };
         }
     }
-    class BitStream
+
+    internal class BitStream
     {
-        public byte[] Bytes { get; set; }
-        public int offset { get; set; }
+        private byte[] _bytes { get; }
+        public int Offset { get; private set; }
         
 
         public BitStream( byte[] bytes)
         {
-            offset = 0;
-            Bytes = bytes;
+            Offset = 0;
+            _bytes = bytes;
         }
 
         public int GetNext(int bitLength)
         {
             
-            int byteIndex = offset / 8;
-            int offsetInByte = offset % 8;
-            int result = 0;
-            for (int i = 0; i < bitLength; i++)
+            var byteIndex = Offset / 8;
+            var offsetInByte = Offset % 8;
+            var result = 0;
+            for (var i = 0; i < bitLength; i++)
             {
                 result <<= 1;
-                result |= Bytes[byteIndex] >> (7 - offsetInByte) & 1;
+                result |= _bytes[byteIndex] >> (7 - offsetInByte) & 1;
                 
-                offset++;
-                offsetInByte = offset % 8;
+                Offset++;
+                offsetInByte = Offset % 8;
                 if (offsetInByte == 0)
                 {
                     byteIndex++;
