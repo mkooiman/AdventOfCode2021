@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -34,6 +35,9 @@ namespace AdventOfCode2021.Day06
 
         public static void Day6Pt2()
         {
+            
+            var sw = new Stopwatch();
+            sw.Start();
             var input = File.ReadAllLines("../../Day06/input.txt");
             var list = input[0].Split(',').Select(int.Parse).ToList();
             var fishy = new decimal[9];
@@ -41,6 +45,8 @@ namespace AdventOfCode2021.Day06
             {
                 fishy[fish]++;
             }
+            var sw1 = new Stopwatch();
+            sw1.Start();
             for (var generation = 0; generation < 256; generation++)
             {
                 var first = fishy[0];
@@ -52,8 +58,9 @@ namespace AdventOfCode2021.Day06
                 fishy[6] += first;
                 fishy[8] = first;
             }
-            
-            Console.WriteLine($"{fishy.Sum( )}");
+            sw.Stop();
+            sw1.Stop();
+            Console.WriteLine($"{fishy.Sum( )}  total: {sw.ElapsedMilliseconds}ms solve:{sw1.ElapsedMilliseconds}ms");
         }
 
         private static void Iter(List<int> arr)

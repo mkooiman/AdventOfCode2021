@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -39,11 +40,14 @@ namespace AdventOfCode2021.Day15
                     Copy2DArray(dict, newInput, dict.Length * x,dict.Length*y,x+y );
                 }
             }
-            PrintMatrix(newInput);
+            
+            var sw = new Stopwatch();
+            sw.Start();
             Solve(newInput);
+            sw.Stop();
+            Console.WriteLine(sw.ElapsedMilliseconds +"ms");
         }
         
-        //initialize 2d array with size
         public static int[][] Make2dArray(int width, int height)
         {
             var array = new int[height][];
@@ -55,7 +59,7 @@ namespace AdventOfCode2021.Day15
             return array;
         }
 
-        //Copy 2d array at coordinates
+        
         public static void Copy2DArray(int[][] source, int[][] destination, int x, int y, int increment)
         {
             for (int i = 0; i < source.Length; i++)
@@ -68,7 +72,7 @@ namespace AdventOfCode2021.Day15
         }
         public static void Solve(int[][] matrix)
         {
-            int[][] result = CopyMatrix(matrix);
+            int[][] result = NewMatrix(matrix);
             result[0][0] = 0;
             bool changedouter;
             do
@@ -103,8 +107,7 @@ namespace AdventOfCode2021.Day15
                     } while (changed);
                 }
             } while (changedouter);
-
-            PrintMatrix(result);
+            
             Console.WriteLine(result[matrix.Length-1][matrix.Length-1]);
         }
         
@@ -142,7 +145,7 @@ namespace AdventOfCode2021.Day15
             return result.ToArray();
         }
         
-        public static int[][] CopyMatrix(int[][] matrix)
+        public static int[][] NewMatrix(int[][] matrix, int initWith = -1)
         {
             int[][] result = new int[matrix.Length][];
             for (int i = 0; i < matrix.Length; i++)
@@ -150,7 +153,7 @@ namespace AdventOfCode2021.Day15
                 result[i] = new int[matrix[i].Length];
                 for (int j = 0; j < matrix[i].Length; j++)
                 {
-                    result[i][j] = -1;
+                    result[i][j] = initWith;
                 }
             }
             return result;
