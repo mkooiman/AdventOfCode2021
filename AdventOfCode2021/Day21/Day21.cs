@@ -68,21 +68,12 @@ namespace AdventOfCode2021.Day21
                 .Select(s => s.Substring("Player 1 starting position: ".Length))
                 .Select(int.Parse)
                 .ToArray();
-            var resLine = new int[23];
-            var counts = InitCounts(3, 3, 0);
-            //print counts
-            for (var i = 0; i < counts.Length; i++)
-            {
-                Console.Write(counts[i] + " ");
-                    
-            }
-            int[] scores = new int[2];
             input[0]--;
             input[1]--;
             var multipliers = InitCounts(3, 3, 0,null);
             ulong p1Wins = 0;
             ulong p2Wins = 0;
-            RollP1(scores[0], scores[1], input[0], input[1], 1,multipliers, ref p1Wins, ref p2Wins);
+            RollP1(0,0, input[0], input[1], 1, multipliers, ref p1Wins, ref p2Wins);
             Console.WriteLine($"\n" +
                               $"p1 wins {p1Wins} \n" +
                               $"p2 wins {p2Wins} ");
@@ -95,9 +86,7 @@ namespace AdventOfCode2021.Day21
             {
                 Console.WriteLine($"p2 wins in {p2Wins} universes");
             }
-            // $"p1 wins {p1Wins / (p1Wins + p2Wins) * 100}% " +
-            // $"p2 wins {p2Wins / (p1Wins + p2Wins) * 100}% ");            // Console.WriteLine(Roll(,input[1]-1, false));
-        }
+     }
 
         private static int[] InitCounts(int faces, int dice, int count, int[] collection = null)
         {
