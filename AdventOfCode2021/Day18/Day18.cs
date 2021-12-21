@@ -39,7 +39,7 @@ namespace AdventOfCode2021.Day18
                     var num1 = Parse(input[i]);
                     if(i1 == i) continue;
                     var num2 = Parse(input[i1]);
-                    var res =Add(num1, num2);
+                    var res = Add(num1, num2);
                     res = Reduce(res);
                     var mag = res.Magnitude();
                     if (mag > max)
@@ -283,10 +283,6 @@ namespace AdventOfCode2021.Day18
         public char Read()
         {
             return _input[_index++];
-        }
-        public char PeekNext()
-        {
-            return _input[_index];
         }
 
     }
